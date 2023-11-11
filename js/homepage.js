@@ -4,8 +4,24 @@ function displayPosts(posts) {
   const postsContainer = document.getElementById("posts-container");
 
   posts.forEach((post) => {
+    const postLink = document.createElement("a");
+    postLink.href = `post.html?slug=${post.slug}`;
+    postLink.className = "post-link";
+
     const postElement = document.createElement("div");
     postElement.className = "post";
+
+    const postDate = document.createElement("p");
+    postDate.className = "post-date";
+    postDate.innerText = formatDate(post.date);
+    postElement.appendChild(postDate);
+
+    if (post.featured_image_url) {
+      const image = document.createElement("img");
+      image.src = post.featured_image_url;
+      image.alt = post.title.rendered;
+      postElement.appendChild(image);
+    }
 
     const postTitle = document.createElement("h3");
     postTitle.innerText = post.title.rendered;
@@ -14,12 +30,15 @@ function displayPosts(posts) {
     const postExcerpt = document.createElement("p");
     postExcerpt.innerHTML = post.excerpt.rendered;
     postElement.appendChild(postExcerpt);
-
-    // If you want to include images, you'll need to fetch them separately
-    // based on post.featured_media
-
-    postsContainer.appendChild(postElement);
+    postLink.appendChild(postElement);
+    postsContainer.appendChild(postLink);
   });
+}
+
+// Helper function to format the date
+function formatDate(dateString) {
+  const options = { year: "numeric", month: "short", day: "numeric" };
+  return new Date(dateString).toLocaleDateString(undefined, options);
 }
 
 document.addEventListener("DOMContentLoaded", () => {

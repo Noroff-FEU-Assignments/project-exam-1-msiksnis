@@ -1,0 +1,10 @@
+.post-link {
+  cursor: pointer;
+  text-decoration: none;
+  /* other styling for the post links */
+}
+
+.post-link:hover,
+.post-link:focus {
+  /* styling to indicate hover or focus state */
+}
