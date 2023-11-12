@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .then((data) => {
       document.querySelector("body").insertAdjacentHTML("afterbegin", data);
 
-      // Now that the header is loaded, find the elements and add event listeners
+      const hamburgerContainer = document.querySelector(".hamburger-container");
       const hamburgerMenu = document.querySelector(".hamburger-menu");
       const navUl = document.querySelector("nav .nav-links");
 
-      hamburgerMenu.addEventListener("click", () => {
+      hamburgerContainer.addEventListener("click", () => {
         navUl.classList.toggle("show");
         hamburgerMenu.classList.toggle("open");
       });
