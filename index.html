@@ -19,13 +19,34 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/carousel.css" />
   </head>
   <body>
     <main>
+      <section class="hero-container">
+        <p>
+          Welcome to 'Easier/Better/Cooler' - your daily dose of innovation and
+          style! Dive into a world where simplicity meets sophistication, and
+          discover smart, sustainable ways to enrich your life. Join our journey
+          and embrace a lifestyle that's as eco-friendly as it is exciting!
+        </p>
+      </section>
       <section class="latest-posts">
-        <h2>Latest Posts</h2>
-        <!-- Carousel / Slider for latest blog posts will go here -->
+        <h2 class="heading">Latest Posts</h2>
+        <div class="carousel-container">
+          <button class="carousel-prev">
+            <span class="material-icons-outlined"> chevron_left </span>
+          </button>
+          <button class="carousel-next">
+            <span class="material-icons-outlined"> chevron_right </span>
+          </button>
+          <div class="carousel-dots"></div>
+        </div>
         <div id="posts-container" class="posts-container"></div>
       </section>
     </main>
@@ -36,5 +57,6 @@
 
     <script type="module" src="js/homepage.js"></script>
     <script src="components/js/load-header.js"></script>
+    <script type="module" src="components/js/carousel.js"></script>
   </body>
 </html>

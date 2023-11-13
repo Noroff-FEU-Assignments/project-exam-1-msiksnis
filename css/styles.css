@@ -127,6 +127,28 @@ header.scrolled {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+.hero-container {
+  display: grid;
+  margin: 0 auto;
+  padding: 0 10px;
+  color: var(--slate);
+  font-size: 1.1rem;
+  font-weight: 300;
+  text-align: justify;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  margin: 1.5em 0;
+}
+
+.heading {
+  text-align: center;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--slate);
+  font-size: 1.3rem;
+}
+
 .post img {
   max-height: 250px;
   width: 100%;
