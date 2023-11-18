@@ -64,7 +64,6 @@ header {
   align-items: center;
 }
 
-/* Hamburger Menu Style */
 .hamburger-container {
   padding: 10px;
   cursor: pointer;
@@ -231,6 +230,10 @@ footer {
 }
 
 @media screen and (min-width: 769px) {
+  header {
+    position: sticky;
+  }
+
   .logo {
     display: grid;
     margin: 0 auto;
@@ -273,5 +276,18 @@ footer {
   .post-options {
     gap: 10px;
     margin: 10px 0 20px 0;
+  }
+
+  nav .nav-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .nav-links {
+    font-size: 1.1rem;
+    padding: 0;
+    gap: 3em;
+    font-weight: 300;
   }
 }
