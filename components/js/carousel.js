@@ -3,32 +3,30 @@ import { fetchPosts } from "../../js/api.js";
 let currentSlide = 0;
 let slideInterval;
 
-// This updates the carousels current visible slide and the active state of the dots
+// Function to update the carousels current visible slide and the active state of the dots
 const updateCarousel = (slides, dots) => {
   slides.forEach((slide, index) => {
-    // If the slide is current slide, adds active class, otherwise remove it
     slide.classList.toggle("active", index === currentSlide);
   });
   dots.forEach((dot, index) => {
-    // Adds active class for the dot
     dot.classList.toggle("active", index === currentSlide);
   });
 };
 
-// This function is called when a dot is clicked
+// Function to go to a specific slide when a dot is clicked
 const goToSlide = (slideIndex, slides, dots) => {
   currentSlide = slideIndex;
   updateCarousel(slides, dots);
   resetInterval(slides, dots);
 };
 
-// This function is called when the next button is clicked
+// Function to move to the next slide
 const nextSlide = (slides, dots) => {
   currentSlide = (currentSlide + 1) % slides.length;
   updateCarousel(slides, dots);
 };
 
-// This function is called when the previous button is clicked
+// Function to reset the interval for automatic slide change
 const resetInterval = (slides, dots) => {
   clearInterval(slideInterval);
   slideInterval = setInterval(() => nextSlide(slides, dots), 8500);
@@ -37,39 +35,35 @@ const resetInterval = (slides, dots) => {
 document.addEventListener("DOMContentLoaded", () => {
   fetchPosts()
     .then((posts) => {
-      // Select only the newest four posts
-      const newestPosts = posts.slice(0, 4);
-
       const carouselContainer = document.querySelector(".carousel-container");
       const dotsContainer = document.querySelector(".carousel-dots");
       const slides = [];
       const dots = [];
 
-      // Create slides and dots for each of the newest four posts
-      newestPosts.forEach((post, index) => {
-        const slide = document.createElement("div");
-        slide.className = "carousel-slide";
-        if (index === 0) slide.classList.add("active");
+      // Creates slides for the first three posts
+      posts.slice(0, 3).forEach((post, index) => {
+        const postLink = document.createElement("a");
+        postLink.href = `post.html?slug=${post.slug}`;
+        postLink.className = "carousel-slide";
+        if (index === 0) postLink.classList.add("active");
 
+        // Populate slide with content from post
         const slideContent = `
-                    <img src="${post.featured_image_url}" alt="${post.title.rendered}">
-                    <h3>${post.title.rendered}</h3>
-                `;
-        slide.innerHTML = slideContent;
-        carouselContainer.insertBefore(slide, carouselContainer.firstChild);
-        slides.push(slide);
+          <img src="${post.featured_image_url}" alt="${post.title.rendered}">
+          <h3>${post.title.rendered}</h3>
+        `;
+        postLink.innerHTML = slideContent;
+        carouselContainer.insertBefore(postLink, carouselContainer.firstChild);
+        slides.push(postLink);
 
         let dot = document.createElement("span");
         dot.classList.add("carousel-dot");
         if (index === 0) dot.classList.add("active");
-        dot.addEventListener("click", () => {
-          goToSlide(index, slides, dots);
-        });
+        dot.addEventListener("click", () => goToSlide(index, slides, dots));
         dotsContainer.appendChild(dot);
         dots.push(dot);
       });
 
-      // Adds event listeners to the next and previous buttons
       document.querySelector(".carousel-prev").addEventListener("click", () => {
         goToSlide(
           currentSlide === 0 ? slides.length - 1 : currentSlide - 1,
@@ -86,10 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       });
 
-      // Slaides to the next slide every 8 seconds
-      slideInterval = setInterval(() => nextSlide(slides, dots), 8000);
+      slideInterval = setInterval(() => nextSlide(slides, dots), 8500);
     })
-    .catch((error) => {
-      console.error("Error fetching posts:", error);
-    });
+    .catch((error) => console.error("Error fetching posts:", error));
 });
