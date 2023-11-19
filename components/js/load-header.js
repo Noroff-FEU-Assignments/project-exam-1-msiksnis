@@ -12,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
         navUl.classList.toggle("show");
         hamburgerMenu.classList.toggle("open");
       });
+
+      // Add the active class to the current page link
+      const currentPath = window.location.pathname;
+      const navLinks = document.querySelectorAll("nav .nav-link a");
+
+      navLinks.forEach((link) => {
+        if (link.getAttribute("href") === currentPath) {
+          link.classList.add("active");
+        }
+      });
     })
     .catch((error) => console.error("Error loading the header:", error));
 });
