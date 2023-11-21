@@ -1,7 +1,7 @@
 :root {
   --slate: #111926;
   --hoverSlate: #292e37;
-  --text: #7a7a7a;
+  --text: #656565;
   --bg: #fafafd;
 }
 
@@ -21,6 +21,7 @@ body {
   line-height: 1.5;
   max-width: 1440px;
   color: var(--slate);
+  selection-color: var(--slate);
 }
 
 main {
