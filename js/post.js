@@ -31,11 +31,59 @@ function displayPost(post) {
   if (post.featured_media) {
     fetchFeaturedMedia(post.featured_media).then((mediaUrl) => {
       if (mediaUrl) {
-        document.getElementById("post-image").src = mediaUrl;
-        document.getElementById("post-image").alt = post.title.rendered;
+        document.getElementById("image").src = mediaUrl;
+        document.getElementById("image").alt = post.title.rendered;
       }
     });
   }
+
+  fetchLatestPosts(post.id);
+}
+
+async function fetchLatestPosts(excludePostId) {
+  try {
+    const response = await fetch(
+      `https://www.lovetherain.no/wp-json/wp/v2/posts?per_page=4`
+    );
+    const posts = await response.json();
+    const filteredPosts = posts
+      .filter((post) => post.id !== excludePostId)
+      .slice(0, 3);
+    displayRecommendedPosts(filteredPosts);
+  } catch (error) {
+    console.error("Error fetching latest posts:", error);
+  }
+}
+
+function displayRecommendedPosts(posts) {
+  const recommendedPostsContainer =
+    document.getElementById("recommended-posts");
+
+  posts.forEach((post) => {
+    const postTemplate = document
+      .querySelector(".rec-post-template")
+      .cloneNode(true);
+    postTemplate.style.display = "block";
+
+    const postLink = `post.html?slug=${post.slug}`;
+
+    postTemplate.querySelector(".rec-post-link").href = postLink;
+    if (post.featured_media) {
+      fetchFeaturedMedia(post.featured_media).then((mediaUrl) => {
+        if (mediaUrl) {
+          postTemplate.querySelector(".rec-post-image").src = mediaUrl;
+          postTemplate.querySelector(".rec-post-image").alt =
+            post.title.rendered;
+        }
+      });
+    }
+    postTemplate.querySelector(".rec-post-title").innerText =
+      post.title.rendered;
+    postTemplate.querySelector(".rec-post-excerpt").innerHTML =
+      post.excerpt.rendered;
+
+    recommendedPostsContainer.appendChild(postTemplate);
+  });
 }
 
 async function fetchFeaturedMedia(mediaId) {

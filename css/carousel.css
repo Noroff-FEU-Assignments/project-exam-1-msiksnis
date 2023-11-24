@@ -110,4 +110,13 @@
   .carousel-slide::before {
     height: 550px;
   }
+
+  .carousel-slide h3 {
+    padding: 10px;
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: 300;
+    padding: 15px;
+    letter-spacing: 0.3px;
+  }
 }
