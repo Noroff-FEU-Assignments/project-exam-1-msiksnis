@@ -3,31 +3,45 @@ import { fetchPostBySlug } from "./api.js";
 const queryParams = new URLSearchParams(window.location.search);
 const postSlug = queryParams.get("slug");
 const title = document.querySelector("title");
+const mainPostLoader = document.querySelector(".main-post-loader");
+const recommendedPostsLoader = document.querySelector(
+  ".recommended-posts-loader"
+);
+
+function toggleLoader(loader, show) {
+  loader.style.display = show ? "block" : "none";
+}
 
 document.addEventListener("DOMContentLoaded", () => {
+  toggleLoader(mainPostLoader, true);
+
   if (postSlug) {
     fetchPostBySlug(postSlug)
       .then((post) => {
         if (post) {
           displayPost(post);
+          toggleLoader(mainPostLoader, false);
         } else {
           console.log("No post found for this slug");
-          // Add error handling for the case when no post is found
+          toggleLoader(mainPostLoader, false);
         }
       })
-      .catch((error) => console.error("Error fetching post:", error));
+      .catch((error) => {
+        console.error("Error fetching post:", error);
+        toggleLoader(mainPostLoader, false);
+      });
   }
 });
 
 function displayPost(post) {
   title.textContent = post.title.rendered;
-  // Populate the title
+  // Populates the title
   document.querySelector(".post-title").innerText = post.title.rendered;
 
-  // Populate the content
+  // Populates the content
   document.getElementById("post-body").innerHTML = post.content.rendered;
 
-  // Fetch and display the featured image
+  // Fetches and displays featured image
   if (post.featured_media) {
     fetchFeaturedMedia(post.featured_media).then((mediaUrl) => {
       if (mediaUrl) {
@@ -37,10 +51,15 @@ function displayPost(post) {
     });
   }
 
-  fetchLatestPosts(post.id);
+  fetchLatestPosts(post.id)
+    .then(displayRecommendedPosts)
+    .catch((error) =>
+      console.error("Error in fetching/displaying recommended posts:", error)
+    );
 }
 
 async function fetchLatestPosts(excludePostId) {
+  toggleLoader(recommendedPostsLoader, true);
   try {
     const response = await fetch(
       `https://www.lovetherain.no/wp-json/wp/v2/posts?per_page=4`
@@ -49,9 +68,10 @@ async function fetchLatestPosts(excludePostId) {
     const filteredPosts = posts
       .filter((post) => post.id !== excludePostId)
       .slice(0, 3);
-    displayRecommendedPosts(filteredPosts);
+    return filteredPosts; // Return the filtered posts
   } catch (error) {
     console.error("Error fetching latest posts:", error);
+    throw error; // Rethrow the error to be handled by the caller
   }
 }
 
@@ -84,6 +104,8 @@ function displayRecommendedPosts(posts) {
 
     recommendedPostsContainer.appendChild(postTemplate);
   });
+
+  toggleLoader(recommendedPostsLoader, false);
 }
 
 async function fetchFeaturedMedia(mediaId) {

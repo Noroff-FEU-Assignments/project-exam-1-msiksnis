@@ -1,0 +1,37 @@
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 44%;
+  transform: translateX(-50%, -50%);
+
+  &:after,
+  &:before {
+    display: block;
+    width: 40px;
+    height: 40px;
+    content: "";
+    position: absolute;
+    border-radius: 100px;
+  }
+
+  &:before {
+    animation: spin 1s cubic-bezier(0.6, 0, 0.4, 1) infinite;
+    border: 3.5px solid transparent;
+    border-bottom-color: var(--slate);
+    border-top-color: var(--slate);
+  }
+
+  &:after {
+    border: 3.5px solid;
+    opacity: 0.05;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
