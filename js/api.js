@@ -1,8 +1,10 @@
 const BASE_API_URL = "https://www.lovetherain.no/wp-json/wp/v2/";
 
-export async function fetchPosts() {
+export async function fetchPosts(page = 1, perPage = 10) {
   try {
-    const postsResponse = await fetch(`${BASE_API_URL}posts/`);
+    const postsResponse = await fetch(
+      `${BASE_API_URL}posts?per_page=${perPage}&page=${page}`
+    );
     if (!postsResponse.ok) {
       throw new Error(`HTTP error! Status: ${postsResponse.status}`);
     }
@@ -25,7 +27,6 @@ export async function fetchPosts() {
     return postsWithImages;
   } catch (error) {
     console.error("Error fetching posts:", error);
-    // Handle error in another way if needed
     throw error;
   }
 }
