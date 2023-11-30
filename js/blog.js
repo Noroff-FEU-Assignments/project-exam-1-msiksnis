@@ -6,7 +6,7 @@ const postsPerPage = 10;
 
 // Function to display posts
 function displayAllPosts(posts) {
-  const postsContainer = document.querySelector(".all-blog-posts");
+  const postsContainer = document.querySelector("#all-blog-posts");
 
   posts.forEach((post) => {
     const postClone = document.querySelector(".post-template").cloneNode(true);
@@ -26,9 +26,11 @@ function displayAllPosts(posts) {
     const postExcerpt = postClone.querySelector(".post-excerpt");
     postExcerpt.innerHTML = post.excerpt.rendered;
 
-    // Add any other details you need from the post
+    const postLink = document.createElement("a");
+    postLink.href = `post.html?slug=${post.slug}`;
+    postLink.appendChild(postClone);
 
-    postsContainer.appendChild(postClone);
+    postsContainer.appendChild(postLink);
   });
 }
 

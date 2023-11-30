@@ -28,7 +28,13 @@
   </head>
   <body>
     <main>
-      <section id="all-blog-posts" class="all-blog-posts">
+      <div class="heading-container">
+        <h2 class="heading">
+          Latest Posts
+          <div class="styled-heading"></div>
+        </h2>
+      </div>
+      <section id="all-blog-posts" class="posts-container">
         <!-- Blog Post Template -->
         <div
           id="blog-post-template"
@@ -37,7 +43,9 @@
         >
           <img class="post-image" src="" alt="" />
           <div class="post-info">
-            <span class="post-date"></span>
+            <div class="post-options">
+              <div class="post-date"></div>
+            </div>
             <h3 class="post-title"></h3>
             <p class="post-excerpt"></p>
           </div>
@@ -46,9 +54,9 @@
       </section>
       <button id="load-more" class="load-more-btn">Load More</button>
     </main>
-    <footer>
+    <!-- <footer>
       <p>&copy; 2023 Easier/Better/Cooler. All rights reserved.</p>
-    </footer>
+    </footer> -->
 
     <script type="module" src="js/blog.js"></script>
     <script src="components/js/load-header.js"></script>

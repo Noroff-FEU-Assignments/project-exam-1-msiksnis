@@ -1,0 +1,32 @@
+.all-posts-title {
+  margin-top: 30px;
+  font-size: 1.5rem;
+  font-weight: 400;
+  text-align: center;
+}
+
+#all-blog-posts {
+}
+
+.load-more-btn {
+  background-color: var(--slate);
+  border: 1px solid var(--slate);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 100px auto;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 200px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--hoverSlate);
+    border: 1px solid var(--hoverSlate);
+  }
+}
