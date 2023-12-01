@@ -122,8 +122,24 @@
     background-color: #0a0a0ad7;
   }
 }
+
 .toast {
   opacity: 0;
+}
+
+.remoji_bar {
+  cursor: default;
+  display: flex;
+  column-gap: 2em;
+  flex-wrap: wrap;
+  padding: 0.5em 0px;
+
+  & img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 4px;
+  }
 }
 
 /* Mid-size devices */
@@ -261,21 +277,6 @@
     &.active {
       opacity: 1;
       transform: translateY(0);
-    }
-  }
-
-  .remoji_bar {
-    cursor: default;
-    display: flex;
-    column-gap: 2em;
-    flex-wrap: wrap;
-    padding: 0.5em 0px;
-
-    & img {
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
-      margin-right: 4px;
     }
   }
 }
