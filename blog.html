@@ -12,7 +12,7 @@
     />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Easier/Better/Cooler | Blogs</title>
+    <title>Easier/Better/Cooler | All Posts</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -25,16 +25,25 @@
     />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/blog.css" />
+    <link rel="stylesheet" href="css/loader.css" />
   </head>
   <body>
     <main>
+      <div id="error-toast" class="error-toast">
+        <!-- Error toast -->
+      </div>
       <div class="heading-container">
         <h2 class="heading">
-          Latest Posts
+          All Posts
           <div class="styled-heading"></div>
         </h2>
       </div>
-      <section id="all-blog-posts" class="posts-container">
+      <section
+        id="all-blog-posts"
+        class="posts-container"
+        style="position: relative"
+      >
+        <div class="loader"></div>
         <!-- Blog Post Template -->
         <div
           id="blog-post-template"
@@ -54,9 +63,9 @@
       </section>
       <button id="load-more" class="load-more-btn">Load More</button>
     </main>
-    <!-- <footer>
+    <footer>
       <p>&copy; 2023 Easier/Better/Cooler. All rights reserved.</p>
-    </footer> -->
+    </footer>
 
     <script type="module" src="js/blog.js"></script>
     <script src="components/js/load-header.js"></script>

@@ -1,7 +1,13 @@
 import { fetchPosts } from "../../js/api.js";
 
+const loader = document.querySelector(".carousel-loader");
+
 let currentSlide = 0;
 let slideInterval;
+
+function toggleLoader(show) {
+  loader.style.display = show ? "block" : "none";
+}
 
 // Function to update the carousels current visible slide and the active state of the dots
 const updateCarousel = (slides, dots) => {
@@ -33,6 +39,7 @@ const resetInterval = (slides, dots) => {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  toggleLoader(true);
   fetchPosts()
     .then((posts) => {
       const carouselContainer = document.querySelector(".carousel-container");
@@ -82,5 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       slideInterval = setInterval(() => nextSlide(slides, dots), 8500);
     })
-    .catch((error) => console.error("Error fetching posts:", error));
+    .catch((error) => console.error("Error fetching posts:", error))
+    .finally(() => {
+      toggleLoader(false);
+    });
 });

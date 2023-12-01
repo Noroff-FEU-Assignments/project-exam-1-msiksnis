@@ -5,7 +5,8 @@
   text-align: center;
 }
 
-#all-blog-posts {
+.posts-container {
+  display: grid;
 }
 
 .load-more-btn {
@@ -28,5 +29,19 @@
   &:hover {
     background-color: var(--hoverSlate);
     border: 1px solid var(--hoverSlate);
+  }
+
+  &.disabled {
+    background-color: var(--disabled);
+    border-color: var(--disabled);
+    color: var(--text);
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+}
+
+@media (min-width: 768px) {
+  .heading-container {
+    margin-bottom: 2em;
   }
 }

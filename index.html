@@ -25,9 +25,13 @@
     />
     <link rel="stylesheet" href="css/styles.css" />
     <link rel="stylesheet" href="css/carousel.css" />
+    <link rel="stylesheet" href="css/loader.css" />
   </head>
   <body>
     <main>
+      <div id="error-toast" class="error-toast">
+        <!-- Error toast -->
+      </div>
       <section class="hero-container">
         <p>
           Welcome to 'Easier/Better/Cooler' - your daily dose of innovation and
@@ -44,6 +48,7 @@
           </h2>
         </div>
         <div class="carousel-container">
+          <div class="carousel-loader"></div>
           <button class="carousel-prev">
             <span class="material-icons-outlined"> chevron_left </span>
           </button>
@@ -53,7 +58,14 @@
           <div class="carousel-dots"></div>
         </div>
 
+        <div class="heading-container featured">
+          <h2 class="heading">
+            Featured Posts
+            <div class="styled-heading"></div>
+          </h2>
+        </div>
         <div id="posts-container" class="posts-container">
+          <div class="loader"></div>
           <div class="post-template" style="display: none">
             <img class="post-image" src="" alt="" />
             <div class="post-options">
@@ -64,6 +76,10 @@
           </div>
         </div>
       </section>
+
+      <a href="/blog.html">
+        <button class="all-posts-btn">All Posts</button>
+      </a>
     </main>
 
     <footer>

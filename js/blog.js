@@ -1,10 +1,16 @@
 import { fetchPosts } from "./api.js";
 import { timeSince } from "../utils/helper-functions.js";
+import { displayError } from "../components/js/messages.js";
+
+const loader = document.querySelector(".loader");
 
 let currentPage = 1;
 const postsPerPage = 10;
 
-// Function to display posts
+function toggleLoader(show) {
+  loader.style.display = show ? "block" : "none";
+}
+
 function displayAllPosts(posts) {
   const postsContainer = document.querySelector("#all-blog-posts");
 
@@ -12,7 +18,6 @@ function displayAllPosts(posts) {
     const postClone = document.querySelector(".post-template").cloneNode(true);
     postClone.style.display = "";
 
-    // Set the content of the postClone based on the post data
     const postImage = postClone.querySelector(".post-image");
     postImage.src = post.featured_image_url;
     postImage.alt = post.title.rendered;
@@ -34,23 +39,30 @@ function displayAllPosts(posts) {
   });
 }
 
-// Function to load posts
 async function loadPosts() {
+  toggleLoader(true);
   try {
     const posts = await fetchPosts(currentPage, postsPerPage);
     displayAllPosts(posts);
+
+    // Disables the "Load More" button if there are no more posts to load
+    if (posts.length < postsPerPage) {
+      const loadMoreButton = document.querySelector("#load-more");
+      loadMoreButton.disabled = true;
+      loadMoreButton.classList.add("disabled");
+    }
   } catch (error) {
-    console.error("Error fetching posts:", error);
+    displayError("Error loading posts. Please try again.");
+  } finally {
+    toggleLoader(false);
   }
 }
 
-// Event Listener for Load More button
 document.querySelector("#load-more").addEventListener("click", () => {
   currentPage++;
   loadPosts();
 });
 
-// Initial load of posts
 document.addEventListener("DOMContentLoaded", () => {
   loadPosts();
 });

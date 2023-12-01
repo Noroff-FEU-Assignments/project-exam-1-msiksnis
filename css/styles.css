@@ -3,6 +3,7 @@
   --hoverSlate: #292e37;
   --text: #656565;
   --bg: #fafafd;
+  --disabled: #ccc;
 }
 
 html,
@@ -24,6 +25,7 @@ body {
 
 main {
   padding: 50px 10px 0 10px;
+  flex-grow: 1;
 }
 
 img {
@@ -165,12 +167,12 @@ header.scrolled {
   background-color: transparent;
   border: none;
   cursor: pointer;
-  opacity: 70%;
-  transition: all 0.2s ease-in-out;
+  opacity: 0.7;
+  transition: opacity 0.2s ease-in-out;
 
   &:hover {
-    opacity: 100%;
-    transition: all 0.2s ease-in-out;
+    opacity: 1;
+    transition: opacity 0.2s ease-in-out;
   }
 }
 
@@ -179,8 +181,7 @@ footer {
   text-align: center;
   color: var(--text);
   font-size: 0.7rem;
-  width: calc(100% + 20px);
-  margin: 0 -10px 0 -10px;
+  padding: 50px 0 10px 0;
 }
 
 .hero-container {
@@ -202,6 +203,10 @@ footer {
 .heading-container {
   display: flex;
   justify-content: center;
+
+  &.featured {
+    margin-top: -30px;
+  }
 }
 
 .heading {
@@ -228,6 +233,7 @@ footer {
 }
 
 .posts-container {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-gap: 0.5em;
@@ -283,6 +289,51 @@ footer {
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
+}
+
+.error-toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  z-index: 10000;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.all-posts-btn {
+  background-color: var(--slate);
+  border: 1px solid var(--slate);
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0 auto 100px auto;
+  padding: 10px 20px;
+  text-align: center;
+  text-transform: uppercase;
+  width: 200px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--hoverSlate);
+    border: 1px solid var(--hoverSlate);
+  }
 }
 
 @media screen and (min-width: 769px) {
@@ -362,5 +413,10 @@ footer {
     background-color: transparent;
     text-decoration: underline double;
     text-underline-offset: 5px;
+  }
+
+  .error-toast {
+    top: 20px;
+    bottom: auto;
   }
 }
