@@ -244,12 +244,15 @@ footer {
 .post-template {
   background-color: var(--bg);
   padding: 0.5em;
+  overflow: hidden;
+  transition: transform 1.5s cubic-bezier(0.32, 0.84, 0.44, 1);
 }
 
 .post-image {
   max-height: 100px;
   width: 100%;
   object-fit: cover;
+  transition: transform 1.5s cubic-bezier(0.32, 0.84, 0.44, 1);
 }
 
 .post-options {
@@ -362,8 +365,18 @@ footer {
     gap: 20px;
   }
 
+  .post-image-container {
+    overflow: hidden;
+    border-radius: 5px;
+    height: 250px;
+  }
+
   .post-image {
     max-height: 250px;
+  }
+
+  .post-template:hover .post-image {
+    transform: scale(1.02);
   }
 
   .post-title {
