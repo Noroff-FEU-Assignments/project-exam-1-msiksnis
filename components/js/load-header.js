@@ -32,18 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
       if (searchButton) {
         searchButton.addEventListener("click", () => {
           modal.classList.add("active");
-        });
-      }
-
-      if (searchButton) {
-        searchButton.addEventListener("click", () => {
-          modal.classList.add("active");
-
-          // Close the mobile menu if it's open
           if (navUl.classList.contains("show")) {
             navUl.classList.remove("show");
             hamburgerMenu.classList.remove("open");
           }
+        });
+      }
+
+      if (closeButton) {
+        closeButton.addEventListener("click", () => {
+          modal.classList.remove("active");
         });
       }
 
@@ -77,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
 
-        // Clear previous results
         resultsContainer
           .querySelectorAll(".search-result-template:not(:first-child)")
           .forEach((node) => node.remove());
@@ -104,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
             console.log("Search Results:", searchResults);
             displaySearchResults(searchResults);
           } catch (error) {
-            console.error("Error searching for posts:", error);
-            // Handle errors (e.g., show a message to the user)
+            postsContainer.innerHTML = displayError();
           }
         }
       }, 250);
@@ -117,6 +113,15 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch((error) => console.error("Error loading the header:", error));
 });
+
+function displayError(message = "Oops... Please try again.") {
+  const errorToast = document.getElementById("error-toast");
+  errorToast.textContent = message;
+  errorToast.classList.add("active");
+  setTimeout(() => {
+    errorToast.classList.remove("active");
+  }, 3000);
+}
 
 window.addEventListener("scroll", () => {
   const header = document.querySelector("header");
