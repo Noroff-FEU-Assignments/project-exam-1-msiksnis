@@ -388,11 +388,12 @@ footer {
 
   & input {
     flex-grow: 1;
-    padding: 10px;
+    padding: 5px 10px;
     margin: 20px 0 10px 0;
     border: none;
     border-radius: 0;
     border-bottom: 1px solid var(--slate);
+    font-size: 0.9rem;
     font-weight: 300;
 
     &:focus {

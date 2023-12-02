@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hamburgerMenu.classList.toggle("open");
       });
 
-      // Code related to search modal
+      // This part of the code is for the search modal
       const searchButton = document.querySelector(".search-btn");
       const closeButton = document.querySelector(".close-btn");
       const modal = document.getElementById("search-modal");
@@ -32,7 +32,6 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      // Close modal when clicking outside of modal-content
       modal.addEventListener("click", function (event) {
         if (event.target === modal) {
           modal.classList.remove("active");
