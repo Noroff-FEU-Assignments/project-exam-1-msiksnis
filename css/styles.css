@@ -391,6 +391,7 @@ footer {
     padding: 10px;
     margin: 20px 0 10px 0;
     border: none;
+    border-radius: 0;
     border-bottom: 1px solid var(--slate);
     font-weight: 300;
 
