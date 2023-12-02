@@ -35,9 +35,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
 
-      if (closeButton) {
-        closeButton.addEventListener("click", () => {
-          modal.classList.remove("active");
+      if (searchButton) {
+        searchButton.addEventListener("click", () => {
+          modal.classList.add("active");
+
+          // Close the mobile menu if it's open
+          if (navUl.classList.contains("show")) {
+            navUl.classList.remove("show");
+            hamburgerMenu.classList.remove("open");
+          }
         });
       }
 
