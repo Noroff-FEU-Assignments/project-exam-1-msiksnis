@@ -1,10 +1,21 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const BASE_API_URL = "https://www.lovetherain.no/wp-json/wp/v2/";
+
+  async function searchPosts(searchQuery) {
+    const response = await fetch(
+      `${BASE_API_URL}posts?search=${encodeURIComponent(searchQuery)}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  }
+
   fetch("components/header.html")
     .then((response) => response.text())
     .then((data) => {
       document.querySelector("body").insertAdjacentHTML("afterbegin", data);
 
-      // Code related to hamburger menu
       const hamburgerContainer = document.querySelector(".hamburger-container");
       const hamburgerMenu = document.querySelector(".hamburger-menu");
       const navUl = document.querySelector("nav .nav-links");
@@ -14,25 +25,23 @@ document.addEventListener("DOMContentLoaded", () => {
         hamburgerMenu.classList.toggle("open");
       });
 
-      // This part of the code is for the search modal
       const searchButton = document.querySelector(".search-btn");
       const closeButton = document.querySelector(".close-btn");
       const modal = document.getElementById("search-modal");
-      // const modalContent = document.querySelector(".modal-content");
 
       if (searchButton) {
-        searchButton.addEventListener("click", function () {
+        searchButton.addEventListener("click", () => {
           modal.classList.add("active");
         });
       }
 
       if (closeButton) {
-        closeButton.addEventListener("click", function () {
+        closeButton.addEventListener("click", () => {
           modal.classList.remove("active");
         });
       }
 
-      modal.addEventListener("click", function (event) {
+      modal.addEventListener("click", (event) => {
         if (event.target === modal) {
           modal.classList.remove("active");
         }
@@ -47,17 +56,52 @@ document.addEventListener("DOMContentLoaded", () => {
             timeout = null;
             if (!immediate) func.apply(context, args);
           };
-          const callNow = immediate && !timeout;
           clearTimeout(timeout);
           timeout = setTimeout(later, wait);
-          if (callNow) func.apply(context, args);
+          if (immediate && !timeout) func.apply(context, args);
         };
       }
 
-      const debouncedSearch = debounce(function () {
+      function displaySearchResults(searchResults) {
+        const resultsContainer = document.querySelector(".modal-content");
+        const template = document.querySelector(".search-result-template");
+
+        if (!resultsContainer || !template) {
+          console.error("Search result template or container not found");
+          return;
+        }
+
+        // Clear previous results
+        resultsContainer
+          .querySelectorAll(".search-result-template:not(:first-child)")
+          .forEach((node) => node.remove());
+
+        searchResults.forEach((result) => {
+          const clone = template.cloneNode(true);
+          clone.style.display = "block";
+
+          const resultElement = clone.querySelector(".search-result");
+          if (resultElement) {
+            resultElement.textContent = result.title.rendered;
+            resultElement.href = `post.html?slug=${result.slug}`;
+          }
+
+          resultsContainer.appendChild(clone);
+        });
+      }
+
+      const debouncedSearch = debounce(async function () {
         const searchValue = document.getElementById("search-input").value;
-        // Implement search functionality here
-        console.log("Searching for:", searchValue);
+        if (searchValue) {
+          try {
+            const searchResults = await searchPosts(searchValue);
+            console.log("Search Results:", searchResults);
+            displaySearchResults(searchResults);
+          } catch (error) {
+            console.error("Error searching for posts:", error);
+            // Handle errors (e.g., show a message to the user)
+          }
+        }
       }, 250);
 
       const searchInput = document.getElementById("search-input");
@@ -68,7 +112,6 @@ document.addEventListener("DOMContentLoaded", () => {
     .catch((error) => console.error("Error loading the header:", error));
 });
 
-// Scroll event listener
 window.addEventListener("scroll", () => {
   const header = document.querySelector("header");
   if (window.scrollY > 50) {

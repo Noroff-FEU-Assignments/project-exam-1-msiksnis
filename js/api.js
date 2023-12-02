@@ -73,3 +73,18 @@ export async function fetchPostBySlug(slug) {
     throw error;
   }
 }
+
+export async function searchPosts(query) {
+  try {
+    const response = await fetch(
+      `${BASE_API_URL}posts?search=${encodeURIComponent(query)}`
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error searching posts:", error);
+    throw error; // or handle the error as needed
+  }
+}

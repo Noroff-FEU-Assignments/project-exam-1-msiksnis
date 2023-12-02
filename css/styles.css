@@ -154,7 +154,7 @@ nav .nav-links.show {
 }
 
 .nav-link a.active {
-  background-color: rgb(249, 249, 145);
+  background-color: #f9f991;
   border-radius: 5px;
 }
 
@@ -377,6 +377,8 @@ footer {
 }
 
 .modal-content {
+  display: flex;
+  flex-direction: column;
   position: relative;
   background-color: #fff;
   max-width: min(960px, 80vw);
@@ -417,6 +419,25 @@ footer {
 .close-btn:focus {
   text-decoration: none;
   cursor: pointer;
+}
+
+.search-result-template {
+  margin-top: 0.5em;
+  overflow: hidden;
+  transition: transform 1.5s cubic-bezier(0.32, 0.84, 0.44, 1);
+
+  & .search-result {
+    display: flex;
+    background-color: var(--bg);
+    padding: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+      background-color: #f1f1f1cc;
+      transition: all 0.3s ease-in-out;
+    }
+  }
 }
 
 @media screen and (min-width: 769px) {
