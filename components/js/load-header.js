@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       return response.json();
     } catch (error) {
-      console.error("Error searching for posts:", error);
       displayError("Error occurred while searching for posts.");
     }
   }
@@ -141,7 +140,9 @@ document.addEventListener("DOMContentLoaded", () => {
             displaySearchResults(searchResults);
           } catch (error) {
             console.error("Error displaying search results:", error);
-            displayError("Error occurred while displaying search results.");
+            displayError(
+              "Error occurred while displaying search results. Please try again."
+            );
           }
         }
       }, 250);

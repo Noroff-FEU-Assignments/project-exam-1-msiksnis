@@ -3,7 +3,6 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
-    let isValid = true;
     const name = document.getElementById("name").value;
     const email = document.getElementById("email").value;
     const subject = document.getElementById("subject").value;
@@ -43,12 +42,5 @@ document
       isValid = false;
     } else {
       document.getElementById("messageError").innerText = "";
-    }
-
-    if (isValid) {
-      // If the form is valid, it can be submitted to the server.
-      console.log(
-        "Form is valid. Send data to server or perform other actions."
-      );
     }
   });

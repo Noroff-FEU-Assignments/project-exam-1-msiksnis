@@ -1,5 +1,6 @@
 import { timeSince } from "../utils/helper-functions.js";
 import { fetchPostBySlug } from "./api.js";
+import { displayError } from "../components/js/messages.js";
 
 const queryParams = new URLSearchParams(window.location.search);
 const postSlug = queryParams.get("slug");
@@ -23,12 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
           displayPost(post);
           toggleLoader(mainPostLoader, false);
         } else {
-          console.log("No post found for this slug");
+          displayError("Error fetching post. Please try again later.");
+
           toggleLoader(mainPostLoader, false);
         }
       })
       .catch((error) => {
-        console.error("Error fetching post:", error);
+        displayError("Error fetching post. Please try again later.");
+
         toggleLoader(mainPostLoader, false);
       });
   }
@@ -65,7 +68,9 @@ function displayPost(post) {
   fetchLatestPosts(post.id)
     .then(displayRecommendedPosts)
     .catch((error) =>
-      console.error("Error in fetching/displaying recommended posts:", error)
+      displayError(
+        "Error in fetching/displaying recommended posts. Please try again ."
+      )
     );
 
   fetchComments(post.id);
@@ -83,8 +88,8 @@ async function fetchLatestPosts(excludePostId) {
       .slice(0, 3);
     return filteredPosts; // Return the filtered posts
   } catch (error) {
-    console.error("Error fetching latest posts:", error);
-    throw error; // Rethrow the error to be handled by the caller
+    displayError("Error fetching latest posts. Please try again later.");
+    throw error;
   }
 }
 
@@ -129,7 +134,7 @@ async function fetchFeaturedMedia(mediaId) {
     const media = await response.json();
     return media.source_url;
   } catch (error) {
-    console.error("Error fetching featured media:", error);
+    displayError("Error fetching featured media. Please try again later.");
     return null;
   }
 }
@@ -149,8 +154,8 @@ document.querySelector(".share").addEventListener("click", function () {
         toast.classList.remove("active");
       }, 3000);
     })
-    .catch((err) => {
-      console.error("Error copying text: ", err);
+    .catch((error) => {
+      displayError("Error copying link. Please try again later.");
     });
 });
 
@@ -188,7 +193,7 @@ async function fetchComments(postId) {
     const comments = await response.json();
     displayComments(comments);
   } catch (error) {
-    console.error("Error fetching comments:", error);
+    displayError("Error fetching comments. Please try again later.");
   }
 }
 

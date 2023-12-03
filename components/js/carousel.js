@@ -1,4 +1,5 @@
 import { fetchPosts } from "../../js/api.js";
+import { displayError } from "./messages.js";
 
 const loader = document.querySelector(".carousel-loader");
 
@@ -89,7 +90,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       slideInterval = setInterval(() => nextSlide(slides, dots), 8500);
     })
-    .catch((error) => console.error("Error fetching posts:", error))
+    .catch((error) => displayError("Error loading posts. Please try again."))
     .finally(() => {
       toggleLoader(false);
     });
