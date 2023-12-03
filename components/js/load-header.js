@@ -2,13 +2,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const BASE_API_URL = "https://www.lovetherain.no/wp-json/wp/v2/";
 
   async function searchPosts(searchQuery) {
-    const response = await fetch(
-      `${BASE_API_URL}posts?search=${encodeURIComponent(searchQuery)}`
-    );
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    try {
+      const response = await fetch(
+        `${BASE_API_URL}posts?search=${encodeURIComponent(searchQuery)}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    } catch (error) {
+      console.error("Error searching for posts:", error);
+      displayError("Error occurred while searching for posts.");
     }
-    return response.json();
   }
 
   fetch("components/header.html")
@@ -36,17 +41,51 @@ document.addEventListener("DOMContentLoaded", () => {
             navUl.classList.remove("show");
             hamburgerMenu.classList.remove("open");
           }
+
+          // Focus on the search input field when the modal is opened
+          const searchInput = document.getElementById("search-input");
+          if (searchInput) {
+            setTimeout(() => {
+              searchInput.focus();
+            }, 0); // Using setTimeout to ensure the input field is visible and ready to receive focus.
+          }
         });
       }
 
       if (closeButton) {
         closeButton.addEventListener("click", () => {
           modal.classList.remove("active");
+          resetSearchInput();
         });
       }
 
       modal.addEventListener("click", (event) => {
         if (event.target === modal) {
+          modal.classList.remove("active");
+          resetSearchInput();
+        }
+      });
+
+      // Function to reset the search input field and clear search results
+      function resetSearchInput() {
+        const searchInput = document.getElementById("search-input");
+        const searchResultsContainer = document.querySelector(
+          ".search-results-container"
+        ); // Replace with your actual results container selector
+
+        // Reset search input
+        if (searchInput) {
+          searchInput.value = "";
+        }
+
+        // Clear search results
+        if (searchResultsContainer) {
+          searchResultsContainer.innerHTML = "";
+        }
+      }
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && modal.classList.contains("active")) {
           modal.classList.remove("active");
         }
       });
@@ -67,29 +106,30 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       function displaySearchResults(searchResults) {
-        const resultsContainer = document.querySelector(".modal-content");
-        const template = document.querySelector(".search-result-template");
+        const resultsContainer = document.querySelector(
+          ".search-results-container"
+        );
 
-        if (!resultsContainer || !template) {
-          console.error("Search result template or container not found");
+        // Check if the container exists
+        if (!resultsContainer) {
+          console.error("Search results container not found");
           return;
         }
 
-        resultsContainer
-          .querySelectorAll(".search-result-template:not(:first-child)")
-          .forEach((node) => node.remove());
+        // Clear previous results
+        resultsContainer.innerHTML = "";
 
         searchResults.forEach((result) => {
-          const clone = template.cloneNode(true);
-          clone.style.display = "block";
+          // Create new elements for each result
+          const resultDiv = document.createElement("div");
+          resultDiv.classList.add("search-result");
 
-          const resultElement = clone.querySelector(".search-result");
-          if (resultElement) {
-            resultElement.textContent = result.title.rendered;
-            resultElement.href = `post.html?slug=${result.slug}`;
-          }
+          const resultLink = document.createElement("a");
+          resultLink.href = `post.html?slug=${result.slug}`;
+          resultLink.textContent = result.title.rendered;
 
-          resultsContainer.appendChild(clone);
+          resultDiv.appendChild(resultLink);
+          resultsContainer.appendChild(resultDiv);
         });
       }
 
@@ -98,10 +138,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (searchValue) {
           try {
             const searchResults = await searchPosts(searchValue);
-            console.log("Search Results:", searchResults);
             displaySearchResults(searchResults);
           } catch (error) {
-            postsContainer.innerHTML = displayError();
+            console.error("Error displaying search results:", error);
+            displayError("Error occurred while displaying search results.");
           }
         }
       }, 250);
@@ -111,23 +151,26 @@ document.addEventListener("DOMContentLoaded", () => {
         searchInput.addEventListener("input", debouncedSearch);
       }
     })
-    .catch((error) => console.error("Error loading the header:", error));
-});
+    .catch((error) => {
+      console.error("Error loading the header:", error);
+      displayError("Error loading the header.");
+    });
 
-function displayError(message = "Oops... Please try again.") {
-  const errorToast = document.getElementById("error-toast");
-  errorToast.textContent = message;
-  errorToast.classList.add("active");
-  setTimeout(() => {
-    errorToast.classList.remove("active");
-  }, 3000);
-}
-
-window.addEventListener("scroll", () => {
-  const header = document.querySelector("header");
-  if (window.scrollY > 50) {
-    header.classList.add("scrolled");
-  } else {
-    header.classList.remove("scrolled");
+  function displayError(message = "Oops... Something went wrong.") {
+    const errorToast = document.getElementById("error-toast");
+    errorToast.textContent = message;
+    errorToast.classList.add("active");
+    setTimeout(() => {
+      errorToast.classList.remove("active");
+    }, 3000);
   }
+
+  window.addEventListener("scroll", () => {
+    const header = document.querySelector("header");
+    if (window.scrollY > 50) {
+      header.classList.add("scrolled");
+    } else {
+      header.classList.remove("scrolled");
+    }
+  });
 });

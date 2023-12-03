@@ -425,18 +425,19 @@ footer {
   margin-top: 0.5em;
   overflow: hidden;
   transition: transform 1.5s cubic-bezier(0.32, 0.84, 0.44, 1);
+}
 
-  & .search-result {
-    display: flex;
-    background-color: var(--bg);
-    padding: 10px;
-    cursor: pointer;
+.search-result a {
+  display: flex;
+  background-color: var(--bg);
+  padding: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #f1f1f1cc;
     transition: all 0.3s ease-in-out;
-
-    &:hover {
-      background-color: #f1f1f1cc;
-      transition: all 0.3s ease-in-out;
-    }
   }
 }
 
