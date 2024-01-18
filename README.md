@@ -1,5 +1,7 @@
 # Easier/Better/Cooler Blog Site
 
+![Easier/Better/Cooler](/assets/easier-better-cooler.png)
+
 ## Overview
 
 'Easier/Better/Cooler' is a dynamic blog platform presenting diverse topics. Integrating WordPress API, it serves latest and featured posts with a distinct categorization. This is a school (Noroff) project developed by Martins Siksnis.
